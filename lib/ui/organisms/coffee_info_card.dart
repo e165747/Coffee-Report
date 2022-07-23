@@ -1,12 +1,14 @@
+import 'package:coffee_report/state/coffee_info_list.dart';
 import 'package:flutter/material.dart';
 
 const defaultMessage = '--';
 
+// コーヒー情報リストを表示させる
 class CoffeeInfoCard extends StatelessWidget {
-  Map<String, String> cofeeInfo;
+  CoffeeInfo coffeeInfo;
   CoffeeInfoCard({
     Key? key,
-    required this.cofeeInfo,
+    required this.coffeeInfo,
   }) : super(key: key);
 
   @override
@@ -19,10 +21,10 @@ class CoffeeInfoCard extends StatelessWidget {
         ),
         title: Text(
           // '${name}',
-          '${cofeeInfo['name'] ?? defaultMessage}',
+          coffeeInfo.beansName,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
-        subtitle: Text('${cofeeInfo['description'] ?? defaultMessage}'),
+        subtitle: Text('${coffeeInfo.memo ?? defaultMessage}'),
         trailing: Icon(Icons.more_vert),
         onTap: () {
           print('tap');
