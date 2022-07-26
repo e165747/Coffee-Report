@@ -11,6 +11,15 @@ class CoffeeList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void onPressedAdd() {
+      ref.read(coffeeInfoListProvider.notifier).addCoffeeInfo(CoffeeInfo(
+          beansName: 'Kimameya Blend',
+          id: '6',
+          evaluation: 5.0,
+          memo: 'test',
+          amount: 200));
+    }
+
     List<CoffeeInfo> coffeeInfoList = ref.watch(coffeeInfoListProvider);
     return Scaffold(
       backgroundColor: Colors.brown.withOpacity(0.2),
@@ -32,7 +41,7 @@ class CoffeeList extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: onPressedAdd,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
