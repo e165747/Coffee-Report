@@ -65,13 +65,13 @@ class CoffeeInfoNotifier extends StateNotifier<List<CoffeeInfo>> {
           ),
           const CoffeeInfo(
               beansName: 'moca',
-              id: '0',
+              id: '2',
               country: 'ethiopia',
               memo: 'memo',
               evaluation: 3.0),
           const CoffeeInfo(
             beansName: 'moca',
-            id: '0',
+            id: '3',
             country: 'ethiopia',
             evaluation: 3.0,
             amount: 200,

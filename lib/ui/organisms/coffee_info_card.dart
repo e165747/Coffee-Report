@@ -16,38 +16,78 @@ class CoffeeInfoCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Card(
-      child: ListTile(
-        leading: Icon(
-          Icons.flag,
-          size: 40.0,
-        ),
-        title: Text(
-          // '${name}',
-          coffeeInfo.beansName,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        subtitle: Text(
-            coffeeInfo.amount != null ? '残り ${coffeeInfo.amount} g' : '--'),
-        trailing: PopupMenuButton(
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
-                  const PopupMenuItem<Menu>(
-                    value: Menu.edit,
-                    child: Text('edit'),
-                  ),
-                  PopupMenuItem<Menu>(
-                    value: Menu.edit,
-                    child: Text('delete'),
-                    onTap: () {
-                      ref
-                          .read(coffeeInfoListProvider.notifier)
-                          .removeCoffeeInfo(coffeeInfo.id);
-                    },
-                  ),
-                ]),
-        onTap: () {
-          print('tap');
+    Future onRemoveInfo() async {
+      return await showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text('削除してもよろしいですか？'),
+            content: Text('削除したデータは元に戻すことができません'),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    ref
+                        .read(coffeeInfoListProvider.notifier)
+                        .removeCoffeeInfo(coffeeInfo.id);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'))
+            ],
+          );
         },
+      );
+    }
+
+    return Dismissible(
+      key: UniqueKey(),
+      direction: DismissDirection.endToStart,
+      confirmDismiss: (_) async {
+        onRemoveInfo();
+      },
+      background: Container(
+        padding: const EdgeInsets.only(right: 16),
+        alignment: Alignment.centerRight,
+        color: Colors.red,
+        child: const Icon(
+          Icons.delete,
+          color: Colors.white,
+        ),
+      ),
+      child: Card(
+        child: ListTile(
+          leading: Icon(
+            Icons.flag,
+            size: 40.0,
+          ),
+          title: Text(
+            // '${name}',
+            coffeeInfo.beansName,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          subtitle: Text(
+              coffeeInfo.amount != null ? '残り ${coffeeInfo.amount} g' : '--'),
+          trailing: PopupMenuButton(
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
+                    const PopupMenuItem<Menu>(
+                      value: Menu.edit,
+                      child: Text('edit'),
+                    ),
+                    PopupMenuItem<Menu>(
+                      value: Menu.delete,
+                      child: Text('delete'),
+                      onTap: () {
+                        // callback後に処理しないとダイアログが開かない
+                        // https://stackoverflow.com/questions/69568862/flutter-showdialog-is-not-shown-on-popupmenuitem-tap
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          onRemoveInfo();
+                        });
+                      },
+                    ),
+                  ]),
+          onTap: () {
+            print('tap');
+          },
+        ),
       ),
     );
   }
