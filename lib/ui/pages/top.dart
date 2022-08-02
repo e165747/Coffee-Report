@@ -1,3 +1,4 @@
+import 'package:coffee_report/ui/pages/coffee_info_detail.dart';
 import 'package:coffee_report/ui/pages/coffee_list.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +14,19 @@ class Top extends StatelessWidget {
         primarySwatch: Colors.brown,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: Scaffold(
-        // body: const MyHomePage(title: 'Coffee Report'),
-        body: const CoffeeList(title: 'Coffee Report'),
+      home: const CoffeeList(
+        title: 'Coffee Report',
       ),
+      // home: Scaffold(
+      //   // body: const MyHomePage(title: 'Coffee Report'),
+      //   body: const CoffeeList(title: 'Coffee Report'),
+      // ),
+      routes: <String, WidgetBuilder>{
+        '/coffee-list': (BuildContext context) =>
+            const CoffeeList(title: 'Coffee Report'),
+        '/coffee-info-detail': (BuildContext context) =>
+            const CoffeeInfoDetail(),
+      },
     );
   }
 }

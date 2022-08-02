@@ -22,27 +22,30 @@ class CoffeeList extends ConsumerWidget {
 
     List<CoffeeInfo> coffeeInfoList = ref.watch(coffeeInfoListProvider);
     return Scaffold(
-      backgroundColor: Colors.brown.withOpacity(0.2),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.brown.withOpacity(0.8),
         title: Text(title),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return CoffeeInfoCard(
-                coffeeInfo: coffeeInfoList[index],
-              );
-            },
-            itemCount: coffeeInfoList.length,
+      body: Container(
+        color: Colors.brown.withOpacity(0.2),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              itemBuilder: (BuildContext context, int index) {
+                return CoffeeInfoCard(
+                  coffeeInfo: coffeeInfoList[index],
+                );
+              },
+              itemCount: coffeeInfoList.length,
+            ),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: onPressedAdd,
-        tooltip: 'Increment',
+        tooltip: 'データを追加',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

@@ -21,8 +21,8 @@ class CoffeeInfoCard extends ConsumerWidget {
         context: context,
         builder: (_) {
           return AlertDialog(
-            title: Text('削除してもよろしいですか？'),
-            content: Text('削除したデータは元に戻すことができません'),
+            title: const Text('削除してもよろしいですか？'),
+            content: const Text('削除したデータは元に戻すことができません'),
             actions: <Widget>[
               TextButton(
                   onPressed: () {
@@ -31,7 +31,7 @@ class CoffeeInfoCard extends ConsumerWidget {
                         .removeCoffeeInfo(coffeeInfo.id);
                     Navigator.of(context).pop();
                   },
-                  child: Text('OK'))
+                  child: const Text('OK'))
             ],
           );
         },
@@ -55,14 +55,14 @@ class CoffeeInfoCard extends ConsumerWidget {
       ),
       child: Card(
         child: ListTile(
-          leading: Icon(
+          leading: const Icon(
             Icons.flag,
             size: 40.0,
           ),
           title: Text(
             // '${name}',
             coffeeInfo.beansName,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           subtitle: Text(
               coffeeInfo.amount != null ? '残り ${coffeeInfo.amount} g' : '--'),
@@ -74,7 +74,7 @@ class CoffeeInfoCard extends ConsumerWidget {
                     ),
                     PopupMenuItem<Menu>(
                       value: Menu.delete,
-                      child: Text('delete'),
+                      child: const Text('delete'),
                       onTap: () {
                         // callback後に処理しないとダイアログが開かない
                         // https://stackoverflow.com/questions/69568862/flutter-showdialog-is-not-shown-on-popupmenuitem-tap
@@ -86,6 +86,7 @@ class CoffeeInfoCard extends ConsumerWidget {
                   ]),
           onTap: () {
             print('tap');
+            Navigator.of(context).pushNamed('/coffee-info-detail');
           },
         ),
       ),
