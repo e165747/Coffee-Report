@@ -1,5 +1,6 @@
 import 'package:coffee_report/state/coffee_info_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // 情報フォームを作成
@@ -27,7 +28,9 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             TextFormField(
-              decoration: const InputDecoration(labelText: '豆の種類'),
+              maxLength: 50,
+              decoration: const InputDecoration(
+                  icon: Icon(Icons.coffee), labelText: '豆の種類'),
               validator: (String? value) {
                 if (value == null || value.isEmpty) {
                   return '豆の種類を入力してください';
@@ -36,7 +39,9 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
               },
             ),
             TextFormField(
-              decoration: const InputDecoration(labelText: '産出国'),
+              maxLength: 20,
+              decoration: const InputDecoration(
+                  icon: Icon(Icons.flag), labelText: '産出国'),
               validator: (String? value) {
                 if (value == null || value.isEmpty) {
                   return '産出国を入力してください';
@@ -45,7 +50,11 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
               },
             ),
             TextFormField(
-              decoration: const InputDecoration(labelText: '評価'),
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                  icon: Icon(Icons.star), labelText: '評価'),
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              maxLength: 5,
               validator: (String? value) {
                 if (value == null || value.isEmpty) {
                   return '評価を入力してください';
@@ -54,7 +63,15 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
               },
             ),
             TextFormField(
-              decoration: const InputDecoration(labelText: '豆の残量'),
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                  icon: Icon(Icons.scale), labelText: '豆の残量'),
+              inputFormatters: [
+                // FilteringTextInputFormatter.digitsOnly,
+                // 小数のみ許可するよう修正ちゅう（まだ途中）
+                FilteringTextInputFormatter.allow(RegExp(r"\d+([\.]\d+)?")),
+              ],
+              maxLength: 5,
               validator: (String? value) {
                 if (value == null || value.isEmpty) {
                   return '豆の残量を入力してください';
@@ -63,7 +80,11 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
               },
             ),
             TextFormField(
-              decoration: const InputDecoration(labelText: 'メモ'),
+              maxLength: 300,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              decoration: const InputDecoration(
+                  icon: Icon(Icons.textsms), labelText: 'メモ'),
               validator: (String? value) {
                 if (value == null || value.isEmpty) {
                   return 'メモを入力してください';
