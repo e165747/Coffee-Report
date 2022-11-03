@@ -1,4 +1,5 @@
 import 'package:coffee_report/state/coffee_info_list.dart';
+import 'package:coffee_report/ui/atoms/add_coffee_info_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,15 +12,6 @@ class CoffeeList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void onPressedAdd() {
-      ref.read(coffeeInfoListProvider.notifier).addCoffeeInfo(CoffeeInfo(
-          beansName: 'Kimameya Blend',
-          id: '6',
-          evaluation: 5.0,
-          memo: 'test',
-          amount: 200));
-    }
-
     List<CoffeeInfo> coffeeInfoList = ref.watch(coffeeInfoListProvider);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -43,11 +35,7 @@ class CoffeeList extends ConsumerWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: onPressedAdd,
-        tooltip: 'データを追加',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: const AddCoffeeInfoButton(),
     );
   }
 }

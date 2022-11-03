@@ -11,9 +11,9 @@ class Top extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.brown,
-        scaffoldBackgroundColor: Colors.white,
-      ),
+          primarySwatch: Colors.brown,
+          scaffoldBackgroundColor: Colors.white,
+          fontFamily: 'Noto_Sans_JP'),
       home: const CoffeeList(
         title: 'Coffee Report',
       ),

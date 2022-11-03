@@ -20,7 +20,10 @@ class MainTemplate extends StatelessWidget {
         backgroundColor: Colors.brown.withOpacity(0.8),
         title: Text(title),
       ),
-      body: Container(color: Colors.brown.withOpacity(0.2), child: body),
+      body: Container(
+          color: Colors.brown.withOpacity(0.2),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: body),
       floatingActionButton:
           floatingActionButton, // This trailing comma makes auto-formatting nicer for build methods.
     );

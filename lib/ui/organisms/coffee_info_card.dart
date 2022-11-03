@@ -16,26 +16,30 @@ class CoffeeInfoCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // 一旦確認ダイアログを表示させないよう修正
+    // Future onRemoveInfo() async {
+    //   return await showDialog(
+    //     context: context,
+    //     builder: (_) {
+    //       return AlertDialog(
+    //         title: const Text('削除してもよろしいですか？'),
+    //         content: const Text('削除したデータは元に戻すことができません'),
+    //         actions: <Widget>[
+    //           TextButton(
+    //               onPressed: () {
+    //                 ref
+    //                     .read(coffeeInfoListProvider.notifier)
+    //                     .removeCoffeeInfo(coffeeInfo.id);
+    //                 Navigator.of(context).pop();
+    //               },
+    //               child: const Text('OK'))
+    //         ],
+    //       );
+    //     },
+    //   );
+    // }
     Future onRemoveInfo() async {
-      return await showDialog(
-        context: context,
-        builder: (_) {
-          return AlertDialog(
-            title: const Text('削除してもよろしいですか？'),
-            content: const Text('削除したデータは元に戻すことができません'),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () {
-                    ref
-                        .read(coffeeInfoListProvider.notifier)
-                        .removeCoffeeInfo(coffeeInfo.id);
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'))
-            ],
-          );
-        },
-      );
+      ref.read(coffeeInfoListProvider.notifier).removeCoffeeInfo(coffeeInfo.id);
     }
 
     return Dismissible(
@@ -78,15 +82,16 @@ class CoffeeInfoCard extends ConsumerWidget {
                       onTap: () {
                         // callback後に処理しないとダイアログが開かない
                         // https://stackoverflow.com/questions/69568862/flutter-showdialog-is-not-shown-on-popupmenuitem-tap
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          onRemoveInfo();
-                        });
+                        // WidgetsBinding.instance.addPostFrameCallback((_) {
+                        onRemoveInfo();
+                        // });
                       },
                     ),
                   ]),
           onTap: () {
             print('tap');
-            Navigator.of(context).pushNamed('/coffee-info-detail');
+            Navigator.of(context)
+                .pushNamed('/coffee-info-detail', arguments: coffeeInfo);
           },
         ),
       ),

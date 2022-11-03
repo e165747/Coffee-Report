@@ -48,7 +48,7 @@ class CoffeeInfoNotifier extends StateNotifier<List<CoffeeInfo>> {
   CoffeeInfoNotifier()
       : super([
           const CoffeeInfo(
-            beansName: 'moca',
+            beansName: 'coffee1',
             id: '0',
             country: 'ethiopia',
             memo: 'memo',
@@ -56,7 +56,7 @@ class CoffeeInfoNotifier extends StateNotifier<List<CoffeeInfo>> {
             amount: 300,
           ),
           const CoffeeInfo(
-            beansName: 'santos No2',
+            beansName: 'coffee2',
             id: '1',
             country: 'Brazil',
             memo: 'memo2',
@@ -64,13 +64,13 @@ class CoffeeInfoNotifier extends StateNotifier<List<CoffeeInfo>> {
             amount: 200,
           ),
           const CoffeeInfo(
-              beansName: 'moca',
+              beansName: 'coffee3',
               id: '2',
               country: 'ethiopia',
               memo: 'memo',
               evaluation: 3.0),
           const CoffeeInfo(
-            beansName: 'moca',
+            beansName: 'coffee4',
             id: '3',
             country: 'ethiopia',
             evaluation: 3.0,
@@ -78,11 +78,20 @@ class CoffeeInfoNotifier extends StateNotifier<List<CoffeeInfo>> {
           ),
         ]);
 
+  // 特定の情報を取得
+  // CoffeeInfo? getCoffeeInfo(String id){
+  //   for (final coffeeInfo in state)
+  //     if(coffeeInfo.id == id){
+  //       return coffeeInfo;
+  //     }
+  // }
+
   // リスト追加
   void addCoffeeInfo(CoffeeInfo coffeeInfo) {
     state = [...state, coffeeInfo];
   }
 
+  // リスト更新
   void updateCoffeeInfo(CoffeeInfo newCoffeeInfo) {
     final String infoId = newCoffeeInfo.id;
     state = [
