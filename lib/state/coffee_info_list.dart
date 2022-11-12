@@ -79,11 +79,13 @@ class CoffeeInfoNotifier extends StateNotifier<List<CoffeeInfo>> {
         ]);
 
   // 特定の情報を取得
-  // CoffeeInfo? getCoffeeInfo(String id){
-  //   for (final coffeeInfo in state)
-  //     if(coffeeInfo.id == id){
+  // CoffeeInfo? getCoffeeInfo(String id) {
+  //   for (final coffeeInfo in state) {
+  //     if (coffeeInfo.id == id) {
   //       return coffeeInfo;
   //     }
+  //   }
+  //   return 'Data Not Found';
   // }
 
   // リスト追加
@@ -151,7 +153,12 @@ class CoffeeInfoNotifier extends StateNotifier<List<CoffeeInfo>> {
   }
 }
 
+// リスト一覧Provider
 final coffeeInfoListProvider =
     StateNotifierProvider<CoffeeInfoNotifier, List<CoffeeInfo>>((ref) {
   return CoffeeInfoNotifier();
 });
+
+// リスト詳細Provider
+// final cofeeInfoDetailProvider =
+//     StateNotifierProvider.autoDispose.family<CoffeeInfo, String>((ref,String) {})
