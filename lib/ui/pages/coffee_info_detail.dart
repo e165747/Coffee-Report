@@ -23,8 +23,11 @@ class CoffeeInfoDetail extends ConsumerWidget {
       child: MainTemplate(
           title: info.beansName,
           // body: Container(color: Colors.white, child: CoffeeInfoForm()));
-          body: CoffeeInfoForm(
-            coffeeInfo: info,
+          body: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: CoffeeInfoForm(
+              coffeeInfo: info,
+            ),
           )),
     );
   }
