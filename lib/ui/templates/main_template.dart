@@ -21,6 +21,7 @@ class MainTemplate extends StatelessWidget {
         title: Text(title),
       ),
       body: Container(
+          height: MediaQuery.of(context).size.height,
           color: Colors.brown.withOpacity(0.2),
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: body),
