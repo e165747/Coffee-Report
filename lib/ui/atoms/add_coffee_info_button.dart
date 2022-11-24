@@ -1,7 +1,6 @@
+import 'package:coffee_report/ui/organisms/add_coffee_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../state/coffee_info_list.dart';
 
 class AddCoffeeInfoButton extends ConsumerWidget {
   const AddCoffeeInfoButton({
@@ -11,12 +10,11 @@ class AddCoffeeInfoButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void onPressedAdd() {
-      ref.read(coffeeInfoListProvider.notifier).addCoffeeInfo(CoffeeInfo(
-          beansName: 'coffee5',
-          id: '6',
-          evaluation: 5.0,
-          memo: 'test',
-          amount: 200));
+      showDialog(
+          context: context,
+          builder: (_) {
+            return AddCoffeeInfoDialog();
+          });
     }
 
     return FloatingActionButton(

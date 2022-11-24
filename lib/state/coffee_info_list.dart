@@ -21,7 +21,7 @@ class CoffeeInfo {
   final String beansName;
   final double? evaluation;
   final String? country;
-  final String id;
+  final int id;
   final String? memo;
   final int? amount;
 
@@ -29,7 +29,7 @@ class CoffeeInfo {
     String? beansName,
     double? evaluation,
     String? country,
-    String? id,
+    int? id,
     String? memo,
     int? amount,
   }) {
@@ -49,7 +49,7 @@ class CoffeeInfoNotifier extends StateNotifier<List<CoffeeInfo>> {
       : super([
           const CoffeeInfo(
             beansName: 'coffee1',
-            id: '0',
+            id: 0,
             country: 'ethiopia',
             memo: 'memo',
             evaluation: 3.0,
@@ -57,7 +57,7 @@ class CoffeeInfoNotifier extends StateNotifier<List<CoffeeInfo>> {
           ),
           const CoffeeInfo(
             beansName: 'coffee2',
-            id: '1',
+            id: 1,
             country: 'Brazil',
             memo: 'memo2',
             evaluation: 5.0,
@@ -65,13 +65,13 @@ class CoffeeInfoNotifier extends StateNotifier<List<CoffeeInfo>> {
           ),
           const CoffeeInfo(
               beansName: 'coffee3',
-              id: '2',
+              id: 2,
               country: 'ethiopia',
               memo: 'memo',
               evaluation: 3.0),
           const CoffeeInfo(
             beansName: 'coffee4',
-            id: '3',
+            id: 3,
             country: 'ethiopia',
             evaluation: 3.0,
             amount: 200,
@@ -89,13 +89,28 @@ class CoffeeInfoNotifier extends StateNotifier<List<CoffeeInfo>> {
   // }
 
   // リスト追加
-  void addCoffeeInfo(CoffeeInfo coffeeInfo) {
-    state = [...state, coffeeInfo];
+  void addCoffeeInfo(
+      {required String beansName,
+      String? country,
+      double? evaluation,
+      int? amount,
+      String? memo}) {
+    print(state.length);
+    int newId = state.isNotEmpty ? state.last.id + 1 : 0;
+    CoffeeInfo newCoffeeInfo = CoffeeInfo(
+        beansName: beansName,
+        id: newId,
+        country: country,
+        evaluation: evaluation,
+        amount: amount,
+        memo: memo);
+    state = [...state, newCoffeeInfo];
+    print(state);
   }
 
   // リスト更新
   void updateCoffeeInfo(CoffeeInfo newCoffeeInfo) {
-    final String infoId = newCoffeeInfo.id;
+    final int infoId = newCoffeeInfo.id;
     state = [
       for (final coffeeInfo in state)
         // if (coffeeInfo.id == infoId) newCoffeeInfo else coffeeInfo,
@@ -104,51 +119,10 @@ class CoffeeInfoNotifier extends StateNotifier<List<CoffeeInfo>> {
   }
 
   // リスト削除
-  void removeCoffeeInfo(String infoId) {
+  void removeCoffeeInfo(int infoId) {
     state = [
       for (final coffeeInfo in state)
         if (coffeeInfo.id != infoId) coffeeInfo,
-    ];
-  }
-
-  // コーヒー豆の名前を更新
-  void updateBeansName(String infoId, String newName) {
-    state = [
-      for (final coffeeInfo in state)
-        if (coffeeInfo.id == infoId)
-          coffeeInfo.copyWith(beansName: newName)
-        else
-          coffeeInfo,
-    ];
-  }
-
-  void updateCountry(String infoId, String newCountry) {
-    state = [
-      for (final coffeeInfo in state)
-        if (coffeeInfo.id == infoId)
-          coffeeInfo.copyWith(country: newCountry)
-        else
-          coffeeInfo,
-    ];
-  }
-
-  void updateEvaluation(String infoId, double newEval) {
-    state = [
-      for (final coffeeInfo in state)
-        if (coffeeInfo.id == infoId)
-          coffeeInfo.copyWith(evaluation: newEval)
-        else
-          coffeeInfo,
-    ];
-  }
-
-  void updateMemo(String infoId, String newMemo) {
-    state = [
-      for (final coffeeInfo in state)
-        if (coffeeInfo.id == infoId)
-          coffeeInfo.copyWith(memo: newMemo)
-        else
-          coffeeInfo,
     ];
   }
 }
@@ -158,7 +132,3 @@ final coffeeInfoListProvider =
     StateNotifierProvider<CoffeeInfoNotifier, List<CoffeeInfo>>((ref) {
   return CoffeeInfoNotifier();
 });
-
-// リスト詳細Provider
-// final cofeeInfoDetailProvider =
-//     StateNotifierProvider.autoDispose.family<CoffeeInfo, String>((ref,String) {})

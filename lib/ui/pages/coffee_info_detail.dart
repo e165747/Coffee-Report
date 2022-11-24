@@ -27,6 +27,7 @@ class CoffeeInfoDetail extends ConsumerWidget {
             padding: const EdgeInsets.only(top: 8.0),
             child: CoffeeInfoForm(
               coffeeInfo: info,
+              isEntry: false,
             ),
           )),
     );

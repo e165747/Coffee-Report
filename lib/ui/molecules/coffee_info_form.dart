@@ -1,14 +1,22 @@
+import 'dart:async';
+
 import 'package:coffee_report/state/coffee_info_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-// 情報フォームを作成
-// https://api.flutter.dev/flutter/widgets/Form-class.html
+/// 情報登録or更新フォーム
+/// 参考
+/// https://api.flutter.dev/flutter/widgets/Form-class.html
+///
+/// CoffeeInfo coffeeInfo : 登録．更新する情報
+/// bool isEntry : trueの場合は新規登録，falseは更新
 class CoffeeInfoForm extends StatefulHookConsumerWidget {
-  const CoffeeInfoForm({Key? key, this.coffeeInfo}) : super(key: key);
+  const CoffeeInfoForm({Key? key, this.coffeeInfo, required this.isEntry})
+      : super(key: key);
 
   final CoffeeInfo? coffeeInfo;
+  final bool isEntry;
 
   @override
   CoffeeInfoFormState createState() => CoffeeInfoFormState();
@@ -31,7 +39,7 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _beansNameController =
-        TextEditingController(text: widget.coffeeInfo!.beansName);
+        TextEditingController(text: widget.coffeeInfo?.beansName);
 
     String? initialCountry = '';
     if (widget.coffeeInfo?.country != null) {
@@ -80,7 +88,6 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
                       TextFormField(
                         controller: _beansNameController,
                         maxLength: 50,
-                        // initialValue: widget.coffeeInfo?.beansName,
                         decoration: const InputDecoration(
                             icon: Icon(Icons.coffee), labelText: '豆の種類'),
                         validator: (String? value) {
@@ -93,12 +100,11 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
                       TextFormField(
                         controller: _countryController,
                         maxLength: 20,
-                        // initialValue: widget.coffeeInfo?.country,
                         decoration: const InputDecoration(
                             icon: Icon(Icons.flag), labelText: '産出国'),
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return '産出国を入力してください';
+                            // return '産出国を入力してください';
                           }
                           return null;
                         },
@@ -106,7 +112,6 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
                       TextFormField(
                         controller: _evaluationController,
                         keyboardType: TextInputType.number,
-                        // initialValue: widget.coffeeInfo?.evaluation.toString(),
                         decoration: const InputDecoration(
                             icon: Icon(Icons.star), labelText: '評価(100点満点)'),
                         inputFormatters: [
@@ -115,7 +120,7 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
                         maxLength: 3,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return '評価を入力してください';
+                            // return '評価を入力してください';
                           }
                           return null;
                         },
@@ -123,7 +128,6 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
                       TextFormField(
                         controller: _amountController,
                         keyboardType: TextInputType.number,
-                        // initialValue: widget.coffeeInfo?.amount.toString(),
                         decoration: const InputDecoration(
                             icon: Icon(Icons.scale), labelText: '豆の残量(g)'),
                         inputFormatters: [
@@ -134,7 +138,7 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
                         maxLength: 5,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return '豆の残量を入力してください';
+                            // return '豆の残量を入力してください';
                           }
                           return null;
                         },
@@ -143,7 +147,6 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
                         controller: _memoController,
                         maxLength: 300,
                         maxLines: null,
-                        // initialValue: widget.coffeeInfo?.memo,
                         keyboardType: TextInputType.multiline,
                         decoration: const InputDecoration(
                             icon: Icon(Icons.textsms), labelText: 'メモ'),
@@ -163,13 +166,53 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // Validate will return true if the form is valid, or false if
                       // the form is invalid.
                       if (_formKey.currentState!.validate()) {
-                        print(_beansNameController.text);
-                        // ref.read(coffeeInfoListProvider.notifier).updateCoffeeInfo(CoffeeInfo(beansName: beansName, id: id))
-                        print('test');
+                        if (widget.isEntry) {
+                          ref
+                              .read(coffeeInfoListProvider.notifier)
+                              .addCoffeeInfo(
+                                beansName: _beansNameController.text,
+                                country: _countryController.text,
+                                evaluation: _evaluationController.text != ''
+                                    ? double.parse(_evaluationController.text)
+                                    : null,
+                                amount: _amountController.text != ''
+                                    ? int.parse(_amountController.text)
+                                    : null,
+                              );
+                        } else {
+                          ref
+                              .read(coffeeInfoListProvider.notifier)
+                              .updateCoffeeInfo(CoffeeInfo(
+                                  id: widget.coffeeInfo!.id,
+                                  beansName: _beansNameController.text,
+                                  evaluation: _evaluationController.text != ''
+                                      ? double.parse(_evaluationController.text)
+                                      : null,
+                                  amount: _amountController.text != ''
+                                      ? int.parse(_amountController.text)
+                                      : null,
+                                  memo: _memoController.text));
+                        }
+
+                        // ダイアログを３秒後に自動で閉じる
+                        Timer _timer = Timer(Duration(seconds: 3), () {
+                          Navigator.of(context).pop();
+                        });
+
+                        await showDialog(
+                            context: context,
+                            builder: (_) {
+                              return const AlertDialog(
+                                title: Text('更新しました'),
+                              );
+                            });
+                        if (_timer.isActive) {
+                          _timer.cancel();
+                        }
                         // Process data.
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
