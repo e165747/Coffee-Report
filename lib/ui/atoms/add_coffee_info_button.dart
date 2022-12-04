@@ -13,7 +13,7 @@ class AddCoffeeInfoButton extends ConsumerWidget {
       showDialog(
           context: context,
           builder: (_) {
-            return AddCoffeeInfoDialog();
+            return const AddCoffeeInfoDialog();
           });
     }
 

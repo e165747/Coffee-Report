@@ -170,6 +170,8 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
                       // Validate will return true if the form is valid, or false if
                       // the form is invalid.
                       if (_formKey.currentState!.validate()) {
+                        // 登録時と更新時で呼び出す関数を変える
+                        //  (設計的には)呼び出す関数自体は共通で，関数側でIDの登録有無に応じて登録・更新処理を切り替えるべきである気がするため，時間があれば修正する
                         if (widget.isEntry) {
                           ref
                               .read(coffeeInfoListProvider.notifier)
@@ -198,8 +200,9 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
                                   memo: _memoController.text));
                         }
 
-                        // ダイアログを３秒後に自動で閉じる
-                        Timer _timer = Timer(Duration(seconds: 3), () {
+                        // ダイアログを1.5秒後に自動で閉じる
+                        Timer timer = Timer(
+                            const Duration(seconds: 1, milliseconds: 50), () {
                           Navigator.of(context).pop();
                         });
 
@@ -210,8 +213,9 @@ class CoffeeInfoFormState extends ConsumerState<CoffeeInfoForm> {
                                 title: Text('更新しました'),
                               );
                             });
-                        if (_timer.isActive) {
-                          _timer.cancel();
+
+                        if (timer.isActive) {
+                          timer.cancel();
                         }
                         // Process data.
                       } else {
