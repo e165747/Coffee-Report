@@ -17,10 +17,6 @@ class Top extends StatelessWidget {
       home: const CoffeeList(
         title: 'Coffee Report',
       ),
-      // home: Scaffold(
-      //   // body: const MyHomePage(title: 'Coffee Report'),
-      //   body: const CoffeeList(title: 'Coffee Report'),
-      // ),
       routes: <String, WidgetBuilder>{
         '/coffee-list': (BuildContext context) =>
             const CoffeeList(title: 'Coffee Report'),
