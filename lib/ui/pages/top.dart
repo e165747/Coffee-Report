@@ -1,3 +1,4 @@
+import 'package:coffee_report/ui/organisms/preview_camera.dart';
 import 'package:coffee_report/ui/pages/coffee_info_detail.dart';
 import 'package:coffee_report/ui/pages/coffee_list.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class Top extends StatelessWidget {
             const CoffeeList(title: 'Coffee Report'),
         '/coffee-info-detail': (BuildContext context) =>
             const CoffeeInfoDetail(),
+        '/camera-view': (BuildContext context) => const PreviewCamera(),
       },
     );
   }

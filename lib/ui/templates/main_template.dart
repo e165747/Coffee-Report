@@ -29,11 +29,15 @@ class MainTemplate extends StatelessWidget {
           backgroundColor: Colors.brown.withOpacity(0.8),
           title: Text(title),
         ),
-        body: Container(
-            height: MediaQuery.of(context).size.height,
-            color: Colors.brown.withOpacity(0.2),
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: body),
+        body: Center(
+          child: Center(
+            child: Container(
+                height: MediaQuery.of(context).size.height,
+                color: Colors.brown.withOpacity(0.2),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Center(child: body)),
+          ),
+        ),
         floatingActionButton:
             floatingActionButton, // This trailing comma makes auto-formatting nicer for build methods.
       ),
